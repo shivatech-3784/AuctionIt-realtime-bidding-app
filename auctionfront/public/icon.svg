@@ -1,0 +1,19 @@
+
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Auction block -->
+  <rect x="60" y="140" width="80" height="20" fill="#8B5E3C" rx="4" />
+
+  <!-- Gavel handle -->
+  <rect x="85" y="60" width="10" height="60" fill="#6B4F3A" transform="rotate(-25 85 60)" rx="2" />
+
+  <!-- Gavel head -->
+  <rect x="70" y="50" width="40" height="15" fill="#A67C52" transform="rotate(-25 85 60)" rx="3" />
+
+  <!-- Gavel shadow (optional effect) -->
+  <ellipse cx="100" cy="160" rx="35" ry="8" fill="rgba(0, 0, 0, 0.1)" />
+
+  <!-- Bang lines -->
+  <line x1="100" y1="80" x2="100" y2="30" stroke="#FFA500" stroke-width="3" stroke-linecap="round" />
+  <line x1="90" y1="85" x2="70" y2="45" stroke="#FFA500" stroke-width="2" stroke-linecap="round" />
+  <line x1="110" y1="85" x2="130" y2="45" stroke="#FFA500" stroke-width="2" stroke-linecap="round" />
+</svg>
