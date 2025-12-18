@@ -6,17 +6,18 @@ import { useNavigate } from "react-router-dom";
 const SubmitAuctionRequest = () => {
   const { user, userLoading } = useContext(UserContext);
   const navigate = useNavigate();
-
   useEffect(() => {
-    if (!userLoading && !user) navigate("/signin");
+    if (!userLoading && !user) {
+      navigate("/signin");
+    }
   }, [user, userLoading, navigate]);
-
   const [formData, setFormData] = useState({
     name: "",
     description: "",
     baseprice: "",
     image: null,
   });
+
   const [imagePreview, setImagePreview] = useState(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -42,18 +43,23 @@ const SubmitAuctionRequest = () => {
     payload.append("description", formData.description);
     payload.append("baseprice", formData.baseprice);
     payload.append("image", formData.image);
+    payload.append("requestedby", user._id);
+    payload.append("status", "pending");
 
     try {
       setLoading(true);
-      await AxiosInstance.post("/auctionrequests/submit-request", payload);
+      await AxiosInstance.post("/auctionrequests/submit-request", payload, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
       setShowSuccess(true);
       setTimeout(() => {
         setShowSuccess(false);
         navigate("/");
       }, 2000);
     } catch (err) {
-      console.error(err?.response?.data || err);
-      setError(err?.response?.data?.message || "Failed to submit auction request");
+      // console.error(err);
+      setError("Failed to submit auction request");
     } finally {
       setLoading(false);
     }
@@ -80,7 +86,9 @@ const SubmitAuctionRequest = () => {
           Submit Auction Request
         </h2>
 
-        {error && <p className="text-red-500 text-sm mb-4 text-center">{error}</p>}
+        {error && (
+          <p className="text-red-500 text-sm mb-4 text-center">{error}</p>
+        )}
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
@@ -141,7 +149,9 @@ const SubmitAuctionRequest = () => {
             />
             {imagePreview && (
               <div className="mt-4">
-                <p className="text-sm text-yellow-800 font-medium mb-1">Preview:</p>
+                <p className="text-sm text-yellow-800 font-medium mb-1">
+                  Preview:
+                </p>
                 <img
                   src={imagePreview}
                   alt="Preview"

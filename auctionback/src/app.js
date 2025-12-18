@@ -39,6 +39,7 @@ import paymentRoutes from "./routes/payment.routes.js";
 app.use("/api/v1/payment", paymentRoutes);
 
 app.use((err, req, res, next) => {
+   console.error("Global Error Handler:", err);
   const statusCode = err.statuscode || 500;
   const message = err.message || "Internal Server Error";
 
