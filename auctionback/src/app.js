@@ -38,6 +38,10 @@ app.use("/api/v1/bid", bidRoutes);
 import paymentRoutes from "./routes/payment.routes.js";
 app.use("/api/v1/payment", paymentRoutes);
 
+import authRoutes from "./routes/auth.routes.js";
+app.use("/api/auth", authRoutes);
+
+
 app.use((err, req, res, next) => {
    console.error("Global Error Handler:", err);
   const statusCode = err.statuscode || 500;
