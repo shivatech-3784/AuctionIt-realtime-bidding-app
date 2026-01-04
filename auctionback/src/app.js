@@ -39,7 +39,7 @@ import paymentRoutes from "./routes/payment.routes.js";
 app.use("/api/v1/payment", paymentRoutes);
 
 import authRoutes from "./routes/auth.routes.js";
-app.use("/api/auth", authRoutes);
+app.use("/api/v1/auth", authRoutes);
 
 
 app.use((err, req, res, next) => {
