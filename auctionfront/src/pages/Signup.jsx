@@ -6,6 +6,7 @@ import AxiosInstance from "../utils/ApiConfig.js";
 export default function SignUp() {
   const { fetchUser } = useContext(UserContext);
   const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -13,6 +14,7 @@ export default function SignUp() {
     confirmPassword: "",
     role: "user",
   });
+
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleChange = (e) => {
@@ -26,14 +28,22 @@ export default function SignUp() {
       setErrorMessage("Passwords do not match");
       return;
     }
+
     try {
       await AxiosInstance.post("/users/signup", formData);
       await fetchUser();
       navigate("/");
     } catch (err) {
-      // console.error(err.response?.data?.message || err.message);
-      setErrorMessage(err.response?.data.message || err.message || "An error occurred");
+      setErrorMessage(
+        err.response?.data?.message || "An error occurred"
+      );
     }
+  };
+
+  // ✅ GOOGLE SIGNUP / LOGIN
+  const handleGoogleLogin = () => {
+    window.location.href =
+      "https://auctionit-realtime-bidding-app.onrender.com/api/v1/auth/google";
   };
 
   return (
@@ -49,6 +59,7 @@ export default function SignUp() {
           </div>
         )}
 
+        {/* EMAIL SIGNUP */}
         <form className="space-y-5" onSubmit={handleSubmit}>
           <div>
             <label className="block text-sm font-medium text-yellow-800 mb-1">
@@ -59,11 +70,11 @@ export default function SignUp() {
               value={formData.username}
               onChange={handleChange}
               type="text"
-              placeholder="Enter your username"
-              className="w-full px-4 py-2 rounded-xl border border-yellow-300 focus:ring-2 focus:ring-yellow-400 outline-none transition duration-300"
+              className="w-full px-4 py-2 rounded-xl border border-yellow-300"
               required
             />
           </div>
+
           <div>
             <label className="block text-sm font-medium text-yellow-800 mb-1">
               Email
@@ -73,11 +84,11 @@ export default function SignUp() {
               value={formData.email}
               onChange={handleChange}
               type="email"
-              placeholder="you@example.com"
-              className="w-full px-4 py-2 rounded-xl border border-yellow-300 focus:ring-2 focus:ring-yellow-400 outline-none transition duration-300"
+              className="w-full px-4 py-2 rounded-xl border border-yellow-300"
               required
             />
           </div>
+
           <div>
             <label className="block text-sm font-medium text-yellow-800 mb-1">
               Password
@@ -87,11 +98,11 @@ export default function SignUp() {
               value={formData.password}
               onChange={handleChange}
               type="password"
-              placeholder="Create a password"
-              className="w-full px-4 py-2 rounded-xl border border-yellow-300 focus:ring-2 focus:ring-yellow-400 outline-none transition duration-300"
+              className="w-full px-4 py-2 rounded-xl border border-yellow-300"
               required
             />
           </div>
+
           <div>
             <label className="block text-sm font-medium text-yellow-800 mb-1">
               Confirm Password
@@ -101,32 +112,32 @@ export default function SignUp() {
               value={formData.confirmPassword}
               onChange={handleChange}
               type="password"
-              placeholder="Confirm your password"
-              className="w-full px-4 py-2 rounded-xl border border-yellow-300 focus:ring-2 focus:ring-yellow-400 outline-none transition duration-300"
+              className="w-full px-4 py-2 rounded-xl border border-yellow-300"
               required
             />
           </div>
-          <div>
-            <label className="block text-sm font-medium text-yellow-800 mb-1">
-              Role
-            </label>
-            <select
-              name="role"
-              value={formData.role}
-              onChange={handleChange}
-              className="w-full px-4 py-2 rounded-xl border border-yellow-300 focus:ring-2 focus:ring-yellow-400 outline-none transition duration-300"
-            >
-              <option value="user">User</option>
-              <option value="admin">Admin</option>
-            </select>
-          </div>
+
           <button
             type="submit"
-            className="w-full bg-yellow-500 hover:bg-yellow-400 text-white py-2.5 rounded-xl text-lg font-medium transition duration-300"
+            className="w-full bg-yellow-500 hover:bg-yellow-400 text-white py-2.5 rounded-xl text-lg font-medium"
           >
             Sign Up
           </button>
         </form>
+
+        {/* GOOGLE SIGNUP */}
+        <button
+          type="button"
+          onClick={handleGoogleLogin}
+          className="w-full mt-4 border border-gray-300 bg-white text-gray-700 py-2.5 rounded-xl text-lg font-medium flex items-center justify-center gap-2 hover:bg-gray-50"
+        >
+          <img
+            src="https://developers.google.com/identity/images/g-logo.png"
+            alt="Google"
+            className="w-5 h-5"
+          />
+          Sign up with Google
+        </button>
       </div>
     </div>
   );

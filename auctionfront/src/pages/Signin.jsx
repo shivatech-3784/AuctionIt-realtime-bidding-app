@@ -28,18 +28,29 @@ export default function SignIn() {
       await fetchUser();
       navigate("/");
     } catch (err) {
-      // console.error(err.response?.data.message || err.message);
-      setErrorMessage(err.response?.data.message || err.message || "Incorrect email or password");
+      setErrorMessage(
+        err.response?.data?.message || "Incorrect email or password"
+      );
     } finally {
       setLoading(false);
     }
   };
 
-  return loading ? (
-    <div className="flex justify-center items-center min-h-screen bg-white">
-      <div className="w-16 h-16 border-4 border-yellow-200 border-t-yellow-600 rounded-full animate-spin"></div>
-    </div>
-  ) : (
+  // ✅ GOOGLE LOGIN (ONLY REDIRECT)
+  const handleGoogleLogin = () => {
+    window.location.href =
+      "https://auctionit-realtime-bidding-app.onrender.com/api/v1/auth/google";
+  };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen bg-white">
+        <div className="w-16 h-16 border-4 border-yellow-200 border-t-yellow-600 rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+
+  return (
     <div className="min-h-screen bg-gradient-to-br from-yellow-100 to-white flex items-center justify-center px-4">
       <div className="w-full max-w-md backdrop-blur-lg bg-white/70 border border-yellow-300 shadow-2xl rounded-3xl p-8">
         <h2 className="text-3xl font-bold text-center text-yellow-700 mb-6">
@@ -52,6 +63,7 @@ export default function SignIn() {
           </div>
         )}
 
+        {/* EMAIL / PASSWORD LOGIN */}
         <form className="space-y-5" onSubmit={handleSubmit}>
           <div>
             <label className="block text-sm font-medium text-yellow-800 mb-1">
@@ -63,10 +75,11 @@ export default function SignIn() {
               onChange={handleChange}
               type="email"
               placeholder="you@example.com"
-              className="w-full px-4 py-2 rounded-xl border border-yellow-300 focus:ring-2 focus:ring-yellow-400 outline-none transition duration-300"
+              className="w-full px-4 py-2 rounded-xl border border-yellow-300 focus:ring-2 focus:ring-yellow-400 outline-none"
               required
             />
           </div>
+
           <div>
             <label className="block text-sm font-medium text-yellow-800 mb-1">
               Password
@@ -77,22 +90,37 @@ export default function SignIn() {
               onChange={handleChange}
               type="password"
               placeholder="••••••••"
-              className="w-full px-4 py-2 rounded-xl border border-yellow-300 focus:ring-2 focus:ring-yellow-400 outline-none transition duration-300"
+              className="w-full px-4 py-2 rounded-xl border border-yellow-300 focus:ring-2 focus:ring-yellow-400 outline-none"
               required
             />
           </div>
+
           <button
             type="submit"
-            className="w-full bg-yellow-500 hover:bg-yellow-400 text-white py-2.5 rounded-xl text-lg font-medium transition duration-300"
+            className="w-full bg-yellow-500 hover:bg-yellow-400 text-white py-2.5 rounded-xl text-lg font-medium"
           >
             Sign In
           </button>
         </form>
 
+        {/* GOOGLE LOGIN */}
+        <button
+          type="button"
+          onClick={handleGoogleLogin}
+          className="w-full mt-4 border border-gray-300 bg-white text-gray-700 py-2.5 rounded-xl text-lg font-medium flex items-center justify-center gap-2 hover:bg-gray-50"
+        >
+          <img
+            src="https://developers.google.com/identity/images/g-logo.png"
+            alt="Google"
+            className="w-5 h-5"
+          />
+          Continue with Google
+        </button>
+
         <p className="mt-6 text-center text-sm text-gray-700">
           New to AuctionIt?{" "}
           <Link
-            to="/SignUp"
+            to="/signup"
             className="text-yellow-700 font-medium hover:underline"
           >
             Create an account
